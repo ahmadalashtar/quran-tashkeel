@@ -36,47 +36,26 @@ app.get("/", function (req, res) {
     res.json(error)
   }
   });
-  
-  
-  
+    
 });
 
-app.get("/verses/:surah::ayah", (req, res) => {
+app.get("/verses/:surah/:ayah", (req, res) => {
   let surah = req.params.surah;
   let ayah = req.params.ayah;
-  let URI = `http://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar`
-  let test = request(URI, (error, response, body) => {
+  let URL = `http://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar`
+  let test = request(URL, (error, response, body) => {
       if (response.statusCode == 200) {
           result = JSON.parse(response.body);
           let originalVerse = removeBOM(result.data.text);
           let verse = keepLettersAndTashkeel(originalVerse)
           let simplifiedVerse = removeTashkeel(verse)
           let displayedVerse = removeTashkeel(originalVerse)
-          res.render("index", {verse,simplifiedVerse,originalVerse,displayedVerse})
+          res.render("index", {verse,simplifiedVerse,originalVerse,displayedVerse, surah, ayah})
       } else {res.json(error)}
     
     }
   );
 });
-
-// app.get("/verses/random-verse", (req,res)=>{
-//   let test = request('http://api.alquran.cloud/v1/ayah/1:1/ar', (error, response, body) => {
-//       if (response.statusCode == 200) {
-//           result = JSON.parse(response.body);
-//           let originalVerse = removeBOM(result.data.text);
-//           let verse = keepLettersAndTashkeel(originalVerse)
-//           let simplifiedVerse = removeTashkeel(verse)
-//           let displayedVerse = removeTashkeel(originalVerse)
-//           res.render("index", {verse,simplifiedVerse,originalVerse,displayedVerse})
-//       } else {
-//         res.json(error)
-//       }
-      
-//     }
-//   );
-// })
-
-
 
 app.listen(3000, function () {
   console.log("Server is running on port 3000 ");

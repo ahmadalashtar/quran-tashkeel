@@ -5,11 +5,9 @@
   </head>
   <body>
     <div>
-        <form action="/verses">
-            <input type="text" id="surah" name="surah">
-            <input type="text" id="ayah" name="ayah">
-            <button type="submit">Go</button>
-          </form> 
+        <input type="text" placeholder="<%=locals.surah%>" id="surah">
+        <input type="text" placeholder = "<%=locals.ayah%>" id="ayah">
+        <button id="go">Go</button>
     </div>
     <div style="padding: 10px;">
         <!-- <p>Original</p> -->
@@ -67,8 +65,7 @@
 </html>
 
 <script>
-    // let ayahsCounts = [<%= locals.ayahsCounts %>];
-    // Tasheek Function
+    //                                              helper functions
     function addTashkeel(newText) {
         const start = input.selectionStart
         const end = input.selectionEnd
@@ -115,14 +112,17 @@
         input.value = words[index];
         firstPosition();
     }
-    // Buttons 
+    //                                                  Buttons 
     let left = document.getElementById("left");
     let right = document.getElementById("right");
     let retry = document.getElementById("retry");
-    let check = document.getElementById("check")
-    let nxt = document.getElementById("nextPosition")
-    let prv = document.getElementById("previousPosition")
-    // Tashkeel controls
+    let check = document.getElementById("check");
+    let nxt = document.getElementById("nextPosition");
+    let prv = document.getElementById("previousPosition");
+    let go = document.getElementById('go');
+    let surah = document.getElementById('surah');
+    let ayah = document.getElementById('ayah');
+    //                                              Tashkeel controls
     let dam = document.getElementById("dam");
     let fath = document.getElementById("fath");
     let kasr = document.getElementById("kasr");
@@ -152,8 +152,13 @@
         input.selectionEnd = 1;
     }
     firstPosition();
-
     //                                          onclick
+    go.onclick = function (){
+        let protocol = window.location.protocol;
+        let URL = protocol+`/verses/${surah.value}/${ayah.value}`
+        window.open(URL,'_self');
+    }
+
     nxt.onclick = function(){
         if (input.selectionEnd==input.value.length){
             nextWord('left')
