@@ -20,9 +20,11 @@
         <input id="input" style = "width: 310px;" type="text">
     </div>
     <div>
-        <button id="left" type="button"><</button> 
+        <button id="left" type="button"><<</button> 
+        <button id="nextPosition" type="button"><</button> 
         <button id="retry" type="button">↻</button> 
-        <button id="right" type="button">></button> 
+        <button id="previousPosition" type="button">></button> 
+        <button id="right" type="button">>></button> 
     </div>
     <div>
         <button id = "kasr" type="button"> ِ </button> 
@@ -74,6 +76,13 @@
         input.selectionEnd = input.selectionStart;
     }
 
+    // Move backwards 
+    function previousPosition(){
+        input.focus()
+        input.selectionStart -= 1;
+        input.selectionEnd = input.selectionStart;
+    }
+
     // Next word
     function nextWord(direction){
         words[index]=input.value;
@@ -100,6 +109,8 @@
     let right = document.getElementById("right");
     let retry = document.getElementById("retry");
     let check = document.getElementById("check")
+    let nxt = document.getElementById("nextPosition")
+    let prv = document.getElementById("previousPosition")
     // Tashkeel controls
     let dam = document.getElementById("dam");
     let fath = document.getElementById("fath");
@@ -123,7 +134,7 @@
     original = original.filter(element => element.length>0);
     input.value = words[index];
 
-    // Position cursor
+    //                                      Position cursor at index 1
     const firstPosition = function(){
         input.focus()
         input.selectionStart = 1;
@@ -131,6 +142,22 @@
     }
     firstPosition();
 
+    //                                          onclick
+    nxt.onclick = function(){
+        if (input.selectionEnd==input.value.length){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
+        
+    }
+    prv.onclick = function(){
+        if (input.selectionEnd==0){
+            nextWord('right')
+        } else {
+            previousPosition();
+        }
+    }
     retry.onclick = function(){
         
         input.value = original[index];
@@ -142,7 +169,7 @@
     right.onclick = function(){
         nextWord('right');
     }
-    // Check
+    //                                      check button
     check.onclick = function(){
         if (verse.innerHTML == simplifiedVerse.innerHTML){ 
             alert("OK!");
@@ -152,7 +179,7 @@
     }
 
 
-    // Add tashkeel
+    //                                      Add tashkeel
     dam.onclick = function(){
         let atLastPosition = false;
         if (input.selectionEnd==input.value.length){
@@ -249,7 +276,7 @@
         font-size: 4vw;
     }
     button,input{
-        width: 50px ;
+        width: 70px ;
         height: 60px;
         font-size: 40px;
         margin-bottom: 5px;
