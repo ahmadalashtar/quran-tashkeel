@@ -25,18 +25,7 @@ let ayahsCounts = [];
 
 //route for index page
 app.get("/", function (req, res) {
-  
-  let test = request('http://api.alquran.cloud/v1/meta', (error, response, body) => {
-  if (response.statusCode == 200) {
-      result = JSON.parse(response.body);
-      let surahs = result.data.surahs.references;
-      ayahsCounts = surahs.map(element=>element.numberOfAyahs)
-      res.render("index",{ayahsCounts});
-  } else {
-    res.json(error)
-  }
-  });
-    
+  res.redirect('/verses/1/1')    
 });
 
 app.get("/verses/:surah/:ayah", (req, res) => {
@@ -60,3 +49,17 @@ app.get("/verses/:surah/:ayah", (req, res) => {
 app.listen(3000, function () {
   console.log("Server is running on port 3000 ");
 });
+
+module.exports = app;
+
+
+// let test = request('http://api.alquran.cloud/v1/meta', (error, response, body) => {
+  // if (response.statusCode == 200) {
+  //     result = JSON.parse(response.body);
+  //     let surahs = result.data.surahs.references;
+  //     ayahsCounts = surahs.map(element=>element.numberOfAyahs)
+  //     res.render("index",{ayahsCounts});
+  // } else {
+  //   res.json(error)
+  // }
+  // });
