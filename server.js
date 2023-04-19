@@ -9,6 +9,11 @@ app.set("view engine", "ejs");
 const simplify = function(verse){
   return verse.replace(/[ًٌٍَُِّْ]/g, '');;
 }
+const removeBOM = function(verse){
+  verse = verse.replace(/^\uFEFF/, '');
+  verse = verse.replace(/^\ufeff/, '');
+  return verse;
+}
 
 //route for index page
 app.get("/", function (req, res) {
@@ -18,18 +23,17 @@ app.get("/", function (req, res) {
 app.get("/verse", (req,res)=>{
   let verse;
   let simplifiedVerse;
-  let test = request('http://api.alquran.cloud/v1/ayah/1:1/ar', (error, response, body) => {
+  let test = request('http://api.alquran.cloud/v1/ayah/5:3/ar', (error, response, body) => {
       if (response.statusCode == 200) {
           result = JSON.parse(response.body);
-          verse = result.data.text;
+          verse = removeBOM(result.data.text);
           simplifiedVerse = simplify(verse)
-          res.render("index", {simplifiedVerse})
+          res.render("index", {verse,simplifiedVerse})
       } else {
         res.json(error)
       }
     }
   );
-  console.log(typeof test)
 })
 
 app.listen(3000, function () {

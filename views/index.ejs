@@ -2,60 +2,181 @@
 <html lang="en">
   <head>
     <title>تعلم اللغة العربية بتشكيل القرآن</title>
-    <!-- <link type="text/css" rel="stylesheet" href="./styles/style.css"/> -->
   </head>
   <body>
-
     <div>
         <p id="simplifiedVerse"><%= locals.simplifiedVerse %></p>
+        <p  id="verse"><%= locals.verse %></p>
+        <!-- <p style="display:none;" id="verse"><%= locals.verse %></p> -->
+    </div>
+
+    <div>
+        <input id="input" style = "width: 310px;" type="text">
     </div>
     <div>
-        
         <button id="left" type="button"><</button> 
-        <button type="button"> ِ </button> 
-        <button type="button"> َ </button> 
-        <button type="button"> ُ </button> 
+        <button id="retry" type="button">↻</button> 
         <button id="right" type="button">></button> 
     </div>
     <div>
-        <button type="button"> ٍ </button> 
-        <button type="button"> ً </button> 
-        <button type="button"> ٌ </button> 
+        <button id = "kasr" type="button"> ِ </button> 
+        <button id="fath" type="button"> َ </button>
+        <button id="dam" type="button"> ُ </button> 
     </div>
     <div>
-        <button type="button"> ّ </button> 
-        <button type="button"> ْ </button> 
-    </div> 
-    <div>
-        <p></p>
+        <button id ="kasrn" type="button"> ٍ </button> 
+        <button id="fathn" type="button"> ً </button>
+        <button id="damn" type="button"> ٌ </button> 
     </div>
+    <div>
+        <button id="shadde" type="button"> ّ </button>
+        <button id = "skoon" type="button"> ْ </button> 
+    </div>
+    
+    
+        
+    
     <div>
         <form action="/verse" method="get">
+
             <button style="width: auto;" type="submit">Get random verse</button> 
+            
         </form>
+        <button id="check" style="width: auto;">Check</button>
+         
     </div>
     </body>
 </html>
 
 <script>
+    // Tasheek Function
+    function addTashkeel(newText) {
+        const start = input.selectionStart
+        const end = input.selectionEnd
+        const text = input.value
+        const before = text.substring(0, start)
+        const after  = text.substring(end, text.length)
+        input.value = (before + newText + after)
+        input.selectionStart = input.selectionEnd = start + newText.length
+        input.focus()
+    }
+
+    // Move next
+    function nextPosition(){
+        input.focus()
+        input.selectionStart += 1;
+        input.selectionEnd = input.selectionStart;
+    }
+    // Buttons 
     let left = document.getElementById("left");
-    let simplifiedVerse = document.getElementById('simplifiedVerse').innerHTML;
-    left.onclick = function(){console.log(simplifiedVerse)}
+    let right = document.getElementById("right");
+    let retry = document.getElementById("retry");
+    let check = document.getElementById("check")
+    // Tashkeel controls
+    let dam = document.getElementById("dam");
+    let fath = document.getElementById("fath");
+    let kasr = document.getElementById("kasr");
+    let damn = document.getElementById("damn");
+    let fathn = document.getElementById("fathn");
+    let kasrn = document.getElementById("kasrn");
+    let skoon = document.getElementById("skoon");
+    let shadde = document.getElementById("shadde");
+
+    // Verse
+    let verse = document.getElementById('verse');
+    let simplifiedVerse = document.getElementById('simplifiedVerse');
+
+    // Input
+    let input = document.getElementById("input");
+    let index = 0;
+    let words = simplifiedVerse.innerHTML.split(" ");
+    let original = simplifiedVerse.innerHTML.split(" ");
+    input.value = words[index];
+
+    // Position cursor
+    const firstPosition = function(){
+        input.focus()
+        input.selectionStart = 1;
+        input.selectionEnd = 1;
+    }
+    firstPosition();
+
+    retry.onclick = function(){
+        
+        input.value = original[index];
+        firstPosition();
+    }
+    left.onclick = function(){
+        if (index+1<words.length){
+            words[index]=input.value;
+            simplifiedVerse.innerHTML = words.join(' ')
+            index+=1;
+            input.value = words[index]
+            firstPosition();
+        }
+    }
+    right.onclick = function(){
+        if (index-1>=0){
+            words[index]=input.value;
+            simplifiedVerse.innerHTML = words.join(' ')
+            index-=1;
+            input.value = words[index]
+            firstPosition();
+        }
+    }
+    // Check
+    check.onclick = function(){
+        if (verse.innerHTML == simplifiedVerse.innerHTML){ alert("OK!")}
+        else {alert("Try again!")}
+    }
+
+
+    // Add tashkeel
+    dam.onclick = function(){
+        addTashkeel("ُ")
+        nextPosition();
+    }
+    fath.onclick = function(){
+        addTashkeel("َ")
+        nextPosition();
+    }
+    kasr.onclick= function(){
+        addTashkeel("ِ")
+        nextPosition();
+    }
+    damn.onclick= function(){
+        addTashkeel("ٌ")
+        nextPosition();
+    }
+    fathn.onclick= function(){
+        addTashkeel("ً")
+        nextPosition();
+    }
+    kasrn.onclick= function(){
+        addTashkeel("ٍ")
+        nextPosition();
+    }
+    skoon.onclick= function(){
+        addTashkeel("ْ");
+        nextPosition();
+    }
+    shadde.onclick= function(){
+        addTashkeel("ّ")
+    }
+
 </script>
 
 <style>
     p{
-        font-size: 40px;
+        font-size: 6vw;
     }
-    button{
+    button,input{
         width: 50px ;
-        font-size: 40px
+        height: 60px;
+        font-size: 40px;
+        margin-bottom: 5px;
     }
-    div{
-        background-color: aliceblue;
-        padding: 0.5px;
-        margin-top: 5px;
-    }
+
     body{
         text-align-last: center;
     }
