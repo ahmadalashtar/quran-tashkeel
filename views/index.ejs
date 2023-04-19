@@ -4,6 +4,13 @@
     <title>تعلم اللغة العربية بتشكيل القرآن</title>
   </head>
   <body>
+    <div>
+        <form action="/verses">
+            <input type="text" id="surah" name="surah">
+            <input type="text" id="ayah" name="ayah">
+            <button type="submit">Go</button>
+          </form> 
+    </div>
     <div style="padding: 10px;">
         <!-- <p>Original</p> -->
         <p style="display: none;" id="originalVerse"><%= locals.originalVerse %></p>
@@ -45,18 +52,22 @@
         
     
     <div>
-        <form action="/verse" method="get">
+        <!-- <form action="/verses/random-verse" method="get">
 
-            <button style="width: auto;" type="submit">Get random verse</button> 
+            <button style="width: auto;" type="submit">Random verse</button> 
             
-        </form>
+        </form> -->
         <button id="check" style="width: auto;">Check</button>
          
     </div>
+    <!-- <div>
+        <p><%=locals.ayahsCounts%></p>
+    </div> -->
     </body>
 </html>
 
 <script>
+    // let ayahsCounts = [<%= locals.ayahsCounts %>];
     // Tasheek Function
     function addTashkeel(newText) {
         const start = input.selectionStart

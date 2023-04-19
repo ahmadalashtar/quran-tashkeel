@@ -31,17 +31,21 @@ app.get("/", function (req, res) {
       result = JSON.parse(response.body);
       let surahs = result.data.surahs.references;
       ayahsCounts = surahs.map(element=>element.numberOfAyahs)
+      res.render("index",{ayahsCounts});
   } else {
     res.json(error)
   }
   });
   
   
-  res.render("index");
+  
 });
 
-app.get("/verse", (req,res)=>{
-  let test = request('http://api.alquran.cloud/v1/ayah/1:1/ar', (error, response, body) => {
+app.get("/verses/:surah::ayah", (req, res) => {
+  let surah = req.params.surah;
+  let ayah = req.params.ayah;
+  let URI = `http://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar`
+  let test = request(URI, (error, response, body) => {
       if (response.statusCode == 200) {
           result = JSON.parse(response.body);
           let originalVerse = removeBOM(result.data.text);
@@ -49,13 +53,28 @@ app.get("/verse", (req,res)=>{
           let simplifiedVerse = removeTashkeel(verse)
           let displayedVerse = removeTashkeel(originalVerse)
           res.render("index", {verse,simplifiedVerse,originalVerse,displayedVerse})
-      } else {
-        res.json(error)
-      }
-      
+      } else {res.json(error)}
+    
     }
   );
-})
+});
+
+// app.get("/verses/random-verse", (req,res)=>{
+//   let test = request('http://api.alquran.cloud/v1/ayah/1:1/ar', (error, response, body) => {
+//       if (response.statusCode == 200) {
+//           result = JSON.parse(response.body);
+//           let originalVerse = removeBOM(result.data.text);
+//           let verse = keepLettersAndTashkeel(originalVerse)
+//           let simplifiedVerse = removeTashkeel(verse)
+//           let displayedVerse = removeTashkeel(originalVerse)
+//           res.render("index", {verse,simplifiedVerse,originalVerse,displayedVerse})
+//       } else {
+//         res.json(error)
+//       }
+      
+//     }
+//   );
+// })
 
 
 
