@@ -154,35 +154,89 @@
 
     // Add tashkeel
     dam.onclick = function(){
-        addTashkeel("ُ");
-        nextPosition();
-        if (input.selectionStart==words.length-1){
-            alert('yes');
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
         }
+        addTashkeel("ُ");
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
+
     }
     fath.onclick = function(){
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
+        }
         addTashkeel("َ")
-        nextPosition();
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
     }
     kasr.onclick= function(){
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
+        }
         addTashkeel("ِ")
-        nextPosition();
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
     }
     damn.onclick= function(){
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
+        }
         addTashkeel("ٌ")
-        nextPosition();
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
     }
     fathn.onclick= function(){
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
+        }
         addTashkeel("ً")
-        nextPosition();
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
     }
     kasrn.onclick= function(){
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
+        }
         addTashkeel("ٍ")
-        nextPosition();
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
     }
     skoon.onclick= function(){
+        let atLastPosition = false;
+        if (input.selectionEnd==input.value.length){
+            atLastPosition = true;
+        }
         addTashkeel("ْ");
-        nextPosition();
+        if (atLastPosition){
+            nextWord('left')
+        } else {
+            nextPosition();
+        }
     }
     shadde.onclick= function(){
         addTashkeel("ّ")
