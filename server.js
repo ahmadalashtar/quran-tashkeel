@@ -20,8 +20,23 @@ const removeBOM = function(verse){
   return verse;
 }
 
+const surahsCount = 114;
+let ayahsCounts = [];
+
 //route for index page
 app.get("/", function (req, res) {
+  
+  let test = request('http://api.alquran.cloud/v1/meta', (error, response, body) => {
+  if (response.statusCode == 200) {
+      result = JSON.parse(response.body);
+      let surahs = result.data.surahs.references;
+      ayahsCounts = surahs.map(element=>element.numberOfAyahs)
+  } else {
+    res.json(error)
+  }
+  });
+  
+  
   res.render("index");
 });
 
@@ -37,9 +52,12 @@ app.get("/verse", (req,res)=>{
       } else {
         res.json(error)
       }
+      
     }
   );
 })
+
+
 
 app.listen(3000, function () {
   console.log("Server is running on port 3000 ");
