@@ -155,6 +155,8 @@
     //                                          onclick
     go.onclick = function (){
         let protocol = window.location.protocol;
+        if (surah.value==''){surah.value=surah.getAttribute('placeholder')}
+        if (ayah.value==''){ayah.value=ayah.getAttribute('placeholder')}
         let URL = protocol+`/verses/${surah.value}/${ayah.value}`
         window.open(URL,'_self');
     }
