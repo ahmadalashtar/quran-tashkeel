@@ -4,10 +4,16 @@
     <title>تعلم اللغة العربية بتشكيل القرآن</title>
   </head>
   <body>
-    <div>
-        <p id="simplifiedVerse"><%= locals.simplifiedVerse %></p>
-        <p  id="verse"><%= locals.verse %></p>
-        <!-- <p style="display:none;" id="verse"><%= locals.verse %></p> -->
+    <div style="padding: 10px;">
+        <!-- <p>Original</p> -->
+        <p style="display: none;" id="originalVerse"><%= locals.originalVerse %></p>
+        <!-- <p>Displayed</p> -->
+        <p  style="display: none;" id="displayedVerse"><%= locals.displayedVerse %></p>
+        <!-- <p>Verse</p> -->
+        <p  style="display: none;" id="verse"><%= locals.verse %></p>
+        <!-- <p>Simplified</p> -->
+        <p  id="simplifiedVerse"><%= locals.simplifiedVerse %></p>
+        
     </div>
 
     <div>
@@ -67,6 +73,28 @@
         input.selectionStart += 1;
         input.selectionEnd = input.selectionStart;
     }
+
+    // Next word
+    function nextWord(direction){
+        words[index]=input.value;
+        simplifiedVerse.innerHTML = words.join(' ');
+        if (direction=='left') {
+            if (index+1<words.length){
+                newIndex = index +1;
+            } else {
+                newIndex = 0;
+            }
+        } else {
+            if (index-1>=0){
+                newIndex = index -1;
+            } else {
+                newIndex = words.length-1;
+            }
+        }
+        index = newIndex;
+        input.value = words[index];
+        firstPosition();
+    }
     // Buttons 
     let left = document.getElementById("left");
     let right = document.getElementById("right");
@@ -85,12 +113,14 @@
     // Verse
     let verse = document.getElementById('verse');
     let simplifiedVerse = document.getElementById('simplifiedVerse');
-
+    let originalVerse = document.getElementById('originalVerse')
     // Input
     let input = document.getElementById("input");
     let index = 0;
-    let words = simplifiedVerse.innerHTML.split(" ");
-    let original = simplifiedVerse.innerHTML.split(" ");
+    let words = simplifiedVerse.innerHTML.split(' ');
+    words = words.filter(element => element.length>0);
+    let original = simplifiedVerse.innerHTML.split(' ');
+    original = original.filter(element => element.length>0);
     input.value = words[index];
 
     // Position cursor
@@ -107,34 +137,28 @@
         firstPosition();
     }
     left.onclick = function(){
-        if (index+1<words.length){
-            words[index]=input.value;
-            simplifiedVerse.innerHTML = words.join(' ')
-            index+=1;
-            input.value = words[index]
-            firstPosition();
-        }
+        nextWord('left');
     }
     right.onclick = function(){
-        if (index-1>=0){
-            words[index]=input.value;
-            simplifiedVerse.innerHTML = words.join(' ')
-            index-=1;
-            input.value = words[index]
-            firstPosition();
-        }
+        nextWord('right');
     }
     // Check
     check.onclick = function(){
-        if (verse.innerHTML == simplifiedVerse.innerHTML){ alert("OK!")}
+        if (verse.innerHTML == simplifiedVerse.innerHTML){ 
+            alert("OK!");
+            simplifiedVerse.innerHTML = originalVerse.innerHTML;
+        }
         else {alert("Try again!")}
     }
 
 
     // Add tashkeel
     dam.onclick = function(){
-        addTashkeel("ُ")
+        addTashkeel("ُ");
         nextPosition();
+        if (input.selectionStart==words.length-1){
+            alert('yes');
+        }
     }
     fath.onclick = function(){
         addTashkeel("َ")
@@ -168,7 +192,7 @@
 
 <style>
     p{
-        font-size: 6vw;
+        font-size: 4vw;
     }
     button,input{
         width: 50px ;

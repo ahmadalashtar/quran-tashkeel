@@ -6,8 +6,13 @@ const express = require("express"),
 //setting view engine to ejs
 app.set("view engine", "ejs");
 
-const simplify = function(verse){
+
+const removeTashkeel = function(verse){
   return verse.replace(/[ًٌٍَُِّْ]/g, '');;
+}
+
+const keepLettersAndTashkeel = function(verse){
+  return verse.replace(/[^ا-ي أإآؤئء ًٌٍَُِّْ]/g, '');
 }
 const removeBOM = function(verse){
   verse = verse.replace(/^\uFEFF/, '');
@@ -21,14 +26,14 @@ app.get("/", function (req, res) {
 });
 
 app.get("/verse", (req,res)=>{
-  let verse;
-  let simplifiedVerse;
-  let test = request('http://api.alquran.cloud/v1/ayah/5:3/ar', (error, response, body) => {
+  let test = request('http://api.alquran.cloud/v1/ayah/1:1/ar', (error, response, body) => {
       if (response.statusCode == 200) {
           result = JSON.parse(response.body);
-          verse = removeBOM(result.data.text);
-          simplifiedVerse = simplify(verse)
-          res.render("index", {verse,simplifiedVerse})
+          let originalVerse = removeBOM(result.data.text);
+          let verse = keepLettersAndTashkeel(originalVerse)
+          let simplifiedVerse = removeTashkeel(verse)
+          let displayedVerse = removeTashkeel(originalVerse)
+          res.render("index", {verse,simplifiedVerse,originalVerse,displayedVerse})
       } else {
         res.json(error)
       }
