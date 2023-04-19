@@ -1,13 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
-    <title>HTML 5 Boilerplate</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <title>تعلم اللغة العربية بتشكيل القرآن</title>
+    <!-- <link type="text/css" rel="stylesheet" href="./styles/style.css"/> -->
   </head>
   <body>
-	<!-- <script src="index.js"></script> -->
-  </body>
+
+    <div>
+        <p id="simplifiedVerse"><%= locals.simplifiedVerse %></p>
+    </div>
+    <div>
+        
+        <button id="left" type="button"><</button> 
+        <button type="button"> ِ </button> 
+        <button type="button"> َ </button> 
+        <button type="button"> ُ </button> 
+        <button id="right" type="button">></button> 
+    </div>
+    <div>
+        <button type="button"> ٍ </button> 
+        <button type="button"> ً </button> 
+        <button type="button"> ٌ </button> 
+    </div>
+    <div>
+        <button type="button"> ّ </button> 
+        <button type="button"> ْ </button> 
+    </div> 
+    <div>
+        <p></p>
+    </div>
+    <div>
+        <form action="/verse" method="get">
+            <button style="width: auto;" type="submit">Get random verse</button> 
+        </form>
+    </div>
+    </body>
 </html>
+
+<script>
+    let left = document.getElementById("left");
+    let simplifiedVerse = document.getElementById('simplifiedVerse').innerHTML;
+    left.onclick = function(){console.log(simplifiedVerse)}
+</script>
+
+<style>
+    p{
+        font-size: 40px;
+    }
+    button{
+        width: 50px ;
+        font-size: 40px
+    }
+    div{
+        background-color: aliceblue;
+        padding: 0.5px;
+        margin-top: 5px;
+    }
+    body{
+        text-align-last: center;
+    }
+</style>
+
