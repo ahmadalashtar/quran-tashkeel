@@ -5,3 +5,5 @@ You need more testing.
 Add menus instead of text.
 
 Implement logic to convert surah's name to number.
+
+List lowest success ayahs.
